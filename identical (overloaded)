@@ -1,0 +1,24 @@
+bool identical(const Stack<ItemType>& otherStack) const;
+template <class ItemType2>
+bool identical(const Stack<ItemType2>& otherStack) const;
+
+
+// identical (same type)
+template <class ItemType>
+bool Stack<ItemType>::identical(const Stack<ItemType>& otherStack) const {
+	if (this->myTop == otherStack.myTop) {
+		for (int i = 0; i <= myTop; i++) {
+			if (this->myArray[i] != otherStack.myArray[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+// identical (different types)
+template <class ItemType>
+template <class ItemType2>
+bool Stack<ItemType>::identical(const Stack<ItemType2>& otherStack) const {
+	return false;
+}
