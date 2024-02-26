@@ -111,7 +111,7 @@ template <class ItemType>
 int Stack<ItemType>::size() {
 	return myTop + 1;
 }
-// idefinition of identical
+// definition of identical
 template <class ItemType>
 bool Stack<ItemType>::identical(const Stack<ItemType>& otherStack) const {
 	if (this->myTop == otherStack.myTop) {
