@@ -1,20 +1,127 @@
+//Templated class STACK based on compile array
+// Stack.h - class declaration and member function definitions 
+#include <iostream>
+using namespace std;
+#ifndef STACK
+#define STACK
+const int MAX_ITEMS = 128;
 template <class ItemType>
-ItemType Stack<ItemType>::size(){
-    return myTop + 1;
-}
+class Stack
+{
+public:
+	/***** Function Members *****/
+	/***** Constructor *****/
+	Stack();
 
+	bool empty() const;
+	bool full() const;
+	void makeEmpty();
 
-//identical
+	void push(const ItemType& value);
+	void print() const;
+	ItemType top() const;
 
+	void pop();
+	void pop(ItemType& value);
+
+	int size();
+	bool identical(const Stack<ItemType>& otherStack) const;
+private:
+	/***** Data Members *****/
+	ItemType myArray[MAX_ITEMS];
+	int myTop;
+}; // end of class declaration
+//--- Definition of Stack constructor
 template <class ItemType>
-bool Stack<ItemType>::identical(const Stack<ItemType> &otherStack) const {
-    if(this->myTop != otherStack.myTop){
-        return false;
-    }
-    for(int i = 0; i <= myTop; i++){
-        if (this->myArray[i] != otherStack.myArray[i]) {
-            return false;
-        }
-    }
-    return true;
+Stack<ItemType>::Stack() : myTop(-1)
+{ }
+//--- Definition of empty()
+template <class ItemType>
+bool Stack<ItemType>::empty() const
+{
+	return (myTop == -1);
 }
+// Definition of full()
+template <class ItemType>
+bool Stack<ItemType>::full() const
+{
+	return (myTop == MAX_ITEMS);
+}
+//--- Definition of push()
+template <class ItemType>
+void Stack<ItemType>::push(const ItemType& value)
+{
+	if (myTop < MAX_ITEMS - 1) //Preserve stack invariant
+	{
+		++myTop;
+		myArray[myTop] = value;
+	}
+	else
+	{
+		cerr << "*** Stack full -- can't add new value ***\n"
+			"Must increase value of MAX_ITEMS in Stack.h\n";
+		exit(1);
+
+	}
+}
+//--- Definition of makeEmpty()
+template <class ItemType>
+void Stack<ItemType>::makeEmpty()
+{
+	myTop = -1;
+}
+//--- Definition of print( )
+template <class ItemType>
+void Stack<ItemType>::print() const
+{
+	for (int i = myTop; i >= 0; i--)
+		cout << myArray[i] << endl;
+}
+//--- Definition of top()
+template <class ItemType>
+ItemType Stack<ItemType> ::top() const
+{
+	if (!empty())
+		return (myArray[myTop]);
+	else
+	{
+		cerr << "*** Stack is empty ***\n";
+
+	}
+}
+//--- Definition of pop()
+template <class ItemType>
+void Stack<ItemType>::pop()
+{
+	if (!empty())
+		myTop--;
+	else
+		cerr << "*** Stack is empty -- "
+		"can't remove a value ***\n";
+}
+//--- Definition of pop()
+template<class ItemType>
+void Stack<ItemType>::pop(ItemType& value)
+{
+	value = myArray[myTop];
+	myTop--;
+}
+// definition of size
+template <class ItemType>
+int Stack<ItemType>::size() {
+	return myTop + 1;
+}
+// idefinition of identical
+template <class ItemType>
+bool Stack<ItemType>::identical(const Stack<ItemType>& otherStack) const {
+	if (this->myTop == otherStack.myTop) {
+		for (int i = 0; i <= myTop; i++) {
+			if (this->myArray[i] != otherStack.myArray[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+}
+#endif
